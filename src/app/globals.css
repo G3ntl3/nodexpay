@@ -14,3 +14,10 @@
 .red{
   border: 2px solid red;
 }
+.herobg{
+  background:  url("/herobg.png") ;
+  background-size: contain;
+  background-position: center;
+  width: 100%;
+  
+}

@@ -14,19 +14,21 @@ export default function HeroSection() {
   const [email, setEmail] = useState("");
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white relative overflow-hidden selection:bg-blue-500/30">
-      <div className="relative z-10 mx-auto px-6 pt-10 pb-24">
+    <div className="min-h-screen  pb-20  text-white relative overflow-hidden selection:bg-blue-500/30">
+      <div className="10 mx-auto pb-24">
+        <div className=" herobg ">
+          
         {/* Navigation / Logo */}
-        <nav className="lg:mb-30 lg:ms-20">
+        <nav className="lg:mb-30 pt-12 lg:ms-20">
           <img src="/logo.png" className="w-18 lg:w-20 " alt="" />
         </nav>
 
         {/* Hero Content */}
-        <section className="flex flex-col items-center text-center">
+        <section className="flex  flex-col  items-center text-center">
           <div className="lg:mb-15 w-50">
             <img src="/wait.png" alt="" />
-          </div>
 
+          </div>
           <h1 className="mb-5 max-w-4xl text-4xl  font-bold md:text-5xl">
             Finance without borders.
           </h1>
@@ -49,34 +51,40 @@ export default function HeroSection() {
               placeholder="Email Address"
               className="flex-1 rounded-3xl border  border-white/10 bg-white/7   p-4  outline-none focus:border-blue-500/50 transition-all placeholder:text-gray-600"
             />
-            <button className="rounded-xl bg-blue-900/60 text-xl text-gray-500 px-3 py-4 hadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all hover:bg-blue-900 active:scale-95">
+            <button className="rounded-xl bg-blue-900 text-xl text-gray-500 px-3 py-4 hadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all hover:bg-blue-900 active:scale-95">
               Join the waitlist
             </button>
           </div>
 
-          <div className="mb-50 mt-10  mx-auto">
+          <div className="mb-25 mt-8  mx-auto">
             <img src="/join.png" alt="" />
           </div>
+            </section>
+
+</div>
           {/* Problem Section (Cards from image 2) */}
-          <section className=" py-20 px-6  w-full">
+          <section className=" pt-20 pb-10  px-6  bg-[#161719]  w-full">
             <div className="max-w-6xl mx-auto">
-              <h2 className="mb-20 text-center text-3xl font-bold tracking-tight text-white">
+              <h2 className="mb-6 text-center text-3xl font-bold tracking-tight text-white">
                 Crypto access in Africa is broken.
               </h2>
 
               <div className="grid gap-16 md:grid-cols-3 md:gap-8">
                 <ProblemCard
                   icon={<AlertCircle size={24} strokeWidth={2.5} />}
+                  image="/block.png"
                   title="Hard to buy crypto without exchanges"
                   desc="Most platforms rely on exchanges and unreliable P2P systems."
                 />
                 <ProblemCard
                   icon={<TrendingUp size={24} strokeWidth={2.5} />}
+                  image="/high.png"
                   title="High fees & friction"
                   desc="Multiple steps, swaps, and delays make simple transactions stressful."
                 />
                 <ProblemCard
                   icon={<Ban size={24} strokeWidth={2.5} />}
+                  image="/error.png"
                   title="No real-world utility"
                   desc="Crypto is hard to spend on everyday needs."
                 />
@@ -86,12 +94,12 @@ export default function HeroSection() {
           {/* Problem Section */}
 
           {/* Middle Section - Value Proposition */}
-          <section className="py-24 px-6">
+          <section className="p bg-[#161719]  px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="mb-6 text-3xl md:text-4xl font-bold tracking-tight text-white">
+              <h2 className="mb-6 text-xl md:text-xl font-bold tracking-tight text-white">
                 Nodexpay turns crypto into everyday spending power.
               </h2>
-              <p className="text-gray-400 text-lg leading-relaxed">
+              <p className="text-lg w-120 italic mx-auto ">
                 With Nodexpay, users can move seamlessly between crypto and fiat
                 assets in one simple app — designed for real-world spending.
               </p>
@@ -99,9 +107,9 @@ export default function HeroSection() {
           </section>
 
           {/* Features Section */}
-          <section className="py-24 px-6 bg-[#050505]">
+          <section className="py-24 px-6 bg-[#161719]">
             <div className="max-w-6xl mx-auto">
-              <h2 className="mb-16 text-center text-3xl md:text-4xl font-bold tracking-tight text-white">
+              <h2 className="mb-16 text-center text-2xl md:text-4xl font-bold tracking-tight text-white">
                 Everything you need in one powerful app
               </h2>
 
@@ -129,7 +137,6 @@ export default function HeroSection() {
               </div>
             </div>
           </section>
-        </section>
       </div>
     </div>
   );
@@ -137,10 +144,12 @@ export default function HeroSection() {
 
 function ProblemCard({
   icon,
+  image,
   title,
   desc,
 }: {
   icon: React.ReactNode;
+  image: string;
   title: string;
   desc: string;
 }) {
@@ -151,35 +160,31 @@ function ProblemCard({
         {/* Animated Gradient Border */}
         <div
           className="absolute inset-0 rounded-[27px] opacity-75 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(59, 130, 246, 0.6) 0%, rgba(139, 92, 246, 0.4) 50%, rgba(16, 185, 129, 0.6) 100%)",
-          }}
+          
         />
 
         {/* Glassmorphism Card Content */}
-        <div className="relative flex min-h-[280px] flex-col items-center rounded-[26px] bg-[#172644]/60 p-10 pt-20 text-center backdrop-blur-2xl border border-white/15 shadow-2xl">
+        <div className="relative flex min-h-[200px] flex-col items-center rounded-[20px]    bg-[#172644] p-10  text-center backdrop-blur-2xl border border-[#17449e] shadow-2xl">
           {/* Icon Container - Positioned Above Card */}
-          <div className="absolute -top-16 left-1/2 -translate-x-1/2">
+          <div className="absolute -top-13 left-1/2 -translate-x-1/2">
             {/* Icon Background Circle with Glassmorphism */}
-            <div className="relative flex red h-24 w-24 items-center justify-ce">
-             
-              <img src="/logo.png" className="w-300" alt="" />
+            <div className="relative flex h-24 w-24 items-center justify-center">
+              <img src={image} className="w-full h-full object-contain" alt="" />
             </div>
           </div>
 
           {/* Card Content */}
-          <div className="relative z-10 mt-6 px-2">
-            <h3 className="mb-3 text-[22px] font-bold leading-tight text-white tracking-tight">
+          <div className="relative z-10   px-2">
+            <h3 className="mb-3 text-xl font-semibold  w-50 mx-auto leading-tight text-white tracking-tight">
               {title}
             </h3>
-            <p className="text-[15px] leading-relaxed text-gray-300 font-light">
+            <p className="text-[15px] w-75 mx-auto  leading-relaxed  font-light">
               {desc}
             </p>
           </div>
 
           {/* Bottom Accent Line */}
-          <div className="absolute bottom-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div className="absolute bottom-0 left-8  right-8 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
         </div>
       </div>
     </div>
