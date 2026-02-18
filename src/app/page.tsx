@@ -1,6 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import { AlertCircle, TrendingUp, Ban } from "lucide-react";
+import {
+  AlertCircle,
+  TrendingUp,
+  Ban,
+  ArrowRightLeft,
+  CreditCard,
+  Wallet,
+  Shield,
+} from "lucide-react";
 
 export default function HeroSection() {
   const [email, setEmail] = useState("");
@@ -46,97 +54,162 @@ export default function HeroSection() {
             </button>
           </div>
 
-          {/* Social Proof */}
-          {/* <div className="mb-32 flex items-center gap-3">
-            <div className="flex -space-x-3">
-               {[1,2,3].map(i => (
-                 <div key={i} className="h-9 w-9 rounded-full border-2 border-[#0a0a0a] bg-gradient-to-tr from-gray-700 to-gray-400" />
-               ))}
-            </div>
-            <p className="text-sm text-gray-400 font-medium">Join + 500 others</p>
-          </div> */}
           <div className="mb-50 mt-10  mx-auto">
             <img src="/join.png" alt="" />
           </div>
           {/* Problem Section (Cards from image 2) */}
-      <section className="bg-[#050505] py-20 px-6 red">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="mb-20 text-center text-3xl font-bold tracking-tight text-white">
-          Crypto access in Africa is broken.
-        </h2>
+          <section className=" py-20 px-6  w-full">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="mb-20 text-center text-3xl font-bold tracking-tight text-white">
+                Crypto access in Africa is broken.
+              </h2>
 
-        <div className="grid gap-16 md:grid-cols-3 md:gap-8">
-          <ProblemCard
-            icon={<AlertCircle size={24} strokeWidth={2.5} />}
-            title="Hard to buy crypto without exchanges"
-            desc="Most platforms rely on exchanges and unreliable P2P systems."
-          />
-          <ProblemCard
-            icon={<TrendingUp size={24} strokeWidth={2.5} />}
-            title="High fees & friction"
-            desc="Multiple steps, swaps, and delays make simple transactions stressful."
-          />
-          <ProblemCard
-            icon={<Ban size={24} strokeWidth={2.5} />}
-            title="No real-world utility"
-            desc="Crypto is hard to spend on everyday needs."
-          />
-        </div>
-      </div>
-    </section>
-    {/* Problem Section */}
+              <div className="grid gap-16 md:grid-cols-3 md:gap-8">
+                <ProblemCard
+                  icon={<AlertCircle size={24} strokeWidth={2.5} />}
+                  title="Hard to buy crypto without exchanges"
+                  desc="Most platforms rely on exchanges and unreliable P2P systems."
+                />
+                <ProblemCard
+                  icon={<TrendingUp size={24} strokeWidth={2.5} />}
+                  title="High fees & friction"
+                  desc="Multiple steps, swaps, and delays make simple transactions stressful."
+                />
+                <ProblemCard
+                  icon={<Ban size={24} strokeWidth={2.5} />}
+                  title="No real-world utility"
+                  desc="Crypto is hard to spend on everyday needs."
+                />
+              </div>
+            </div>
+          </section>
+          {/* Problem Section */}
 
+          {/* Middle Section - Value Proposition */}
+          <section className="py-24 px-6">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="mb-6 text-3xl md:text-4xl font-bold tracking-tight text-white">
+                Nodexpay turns crypto into everyday spending power.
+              </h2>
+              <p className="text-gray-400 text-lg leading-relaxed">
+                With Nodexpay, users can move seamlessly between crypto and fiat
+                assets in one simple app — designed for real-world spending.
+              </p>
+            </div>
+          </section>
+
+          {/* Features Section */}
+          <section className="py-24 px-6 bg-[#050505]">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="mb-16 text-center text-3xl md:text-4xl font-bold tracking-tight text-white">
+                Everything you need in one powerful app
+              </h2>
+
+              <div className="grid gap-8 md:grid-cols-2 lg:gap-10">
+                <FeatureCard
+                  icon={<ArrowRightLeft size={32} strokeWidth={2} />}
+                  title="Bank to Crypto Instantly"
+                  desc="Buy and sell crypto directly from your bank, without centralized exchanges."
+                />
+                <FeatureCard
+                  icon={<CreditCard size={32} strokeWidth={2} />}
+                  title="Pay Bills with Crypto"
+                  desc="Airtime, data, subscriptions, and utilities — all in one place."
+                />
+                <FeatureCard
+                  icon={<Wallet size={32} strokeWidth={2} />}
+                  title="Multi-chain Wallet"
+                  desc="Manage assets across multiple blockchains with a unified wallet experience."
+                />
+                <FeatureCard
+                  icon={<Shield size={32} strokeWidth={2} />}
+                  title="Secure Identity Integration"
+                  desc="Built-in compliance and decentralized identity for safe transactions."
+                />
+              </div>
+            </div>
+          </section>
         </section>
       </div>
     </div>
   );
 }
 
-function ProblemCard({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
+function ProblemCard({
+  icon,
+  title,
+  desc,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+}) {
   return (
-    <div className="relative pt-8">
-      {/* GRADIENT BORDER WRAPPER 
-          Note: We use a pseudo-element or a nested div because standard 'border-image' 
-          doesn't support 'border-radius'.
-      */}
-      <div className="group relative rounded-[24px] p-[2px] transition-all duration-300 hover:scale-[1.02]">
-        {/* The Gradient Border Layer */}
-        <div 
-          className="absolute inset-0 rounded-[24px]" 
+    <div className="relative pt-16">
+      {/* Main Card Container with Gradient Border */}
+      <div className="group relative rounded-[28px] p-[1.5px] transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl">
+        {/* Animated Gradient Border */}
+        <div
+          className="absolute inset-0 rounded-[27px] opacity-75 group-hover:opacity-100 transition-opacity duration-500"
           style={{
-            background: 'linear-gradient(106.77deg, rgba(31, 106, 255, 0.5) 81.96%, rgba(29, 191, 115, 0.5) 100.99%)',
+            background:
+              "linear-gradient(135deg, rgba(59, 130, 246, 0.6) 0%, rgba(139, 92, 246, 0.4) 50%, rgba(16, 185, 129, 0.6) 100%)",
           }}
         />
 
-        {/* Inner Card Content */}
-        <div className="relative flex min-h-[220px] flex-col items-center rounded-[22px] bg-[#172644] p-8 pt-12 text-center backdrop-blur-xl">
-          
-          {/* Glass Icon Container */}
-          <div className="absolute -top-14 left-1/2 -translate-x-1/2">
-             {/* Outer Glow/Shadow Circle */}
-            <div className="relative flex h-19 w-19 items-center justify-center rounded-full border border-white/10   bg-[#172644] ">
-              
-              {/* Top Highlight (The "Glass" shine) */}
-              <div className="absolute   inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
-              
-              {/* Inner Icon */}
-              <div className="relative z-10 text-white red text-10xl">
-                {icon  } 
-              </div>
+        {/* Glassmorphism Card Content */}
+        <div className="relative flex min-h-[280px] flex-col items-center rounded-[26px] bg-[#172644]/60 p-10 pt-20 text-center backdrop-blur-2xl border border-white/15 shadow-2xl">
+          {/* Icon Container - Positioned Above Card */}
+          <div className="absolute -top-16 left-1/2 -translate-x-1/2">
+            {/* Icon Background Circle with Glassmorphism */}
+            <div className="relative flex red h-24 w-24 items-center justify-ce">
+             
+              <img src="/logo.png" className="w-300" alt="" />
             </div>
           </div>
 
-          <div className="mt-4">
-            <h3 className="mb-4 text-[20px] font-bold leading-tight text-white px-2">
+          {/* Card Content */}
+          <div className="relative z-10 mt-6 px-2">
+            <h3 className="mb-3 text-[22px] font-bold leading-tight text-white tracking-tight">
               {title}
             </h3>
-            <p className="text-[15px] leading-relaxed text-zinc-400">
+            <p className="text-[15px] leading-relaxed text-gray-300 font-light">
               {desc}
             </p>
           </div>
+
+          {/* Bottom Accent Line */}
+          <div className="absolute bottom-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
         </div>
       </div>
     </div>
   );
 }
+//  second function to map the card 2
+function FeatureCard({
+  icon,
+  title,
+  desc,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <div className="group relative rounded-[16px] border border-blue-500/40 bg-[#172644] p-8 transition-all duration-500 hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-500/20">
+      {/* Subtle Background Glow */}
+      <div className="absolute inset-0 rounded-[16px] bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
+      {/* Icon */}
+      <div className="relative z-10 mb-5 text-blue-400">{icon}</div>
+
+      {/* Content */}
+      <div className="relative z-10">
+        <h3 className="mb-3 text-lg font-semibold text-white tracking-tight">
+          {title}
+        </h3>
+        <p className="text-[15px] leading-relaxed text-gray-300">{desc}</p>
+      </div>
+    </div>
+  );
+}
