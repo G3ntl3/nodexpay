@@ -21,3 +21,13 @@
   width: 100%;
   
 }
+@media (min-width:300px) {
+  *{
+    /* border: 2px solid red; */
+  background-repeat: no-repeat;
+
+}
+
+}
+
+  

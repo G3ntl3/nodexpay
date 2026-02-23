@@ -12,30 +12,32 @@ import {
 
 export default function HeroSection() {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
 
   return (
     <div className="min-h-screen  pb-20  text-white relative overflow-hidden selection:bg-blue-500/30">
       <div className="10 mx-auto pb-24">
         <div className=" herobg ">
+      
           {/* Navigation / Logo */}
-          <nav className="lg:mb-30 pt-12 lg:ms-20">
+          <nav className="lg:mb-30 pt-12 ms-5 lg:ms-20">
             <img src="/logo.png" className="w-18 lg:w-20 " alt="" />
           </nav>
-
           {/* Hero Content */}
           <section className="flex  flex-col  items-center text-center">
-            <div className="lg:mb-15 w-50">
+            <div className="lg:mb-15 w-50 mt-30 lg:mt-0 lg:w-50">
               <img src="/wait.png" alt="" />
             </div>
-            <h1 className="mb-5 max-w-4xl text-4xl  font-bold md:text-5xl">
+            <h1 className="mb- max-w-4xl text-3xl mt-20  font-bold md:text-5xl">
               Finance without borders.
             </h1>
-            <h1 className="mb-5 max-w-4xl text-4xl  font-bold md:text-5xl">
-              <span className="text-white/90   ">
+            <h1 className="mb-5 max-w-4xl px-5 text-3xl text-start   font-bold md:text-5xl">
+              <span className="text-white/90  ">
                 Crypto that works in real life.
               </span>
             </h1>
-
+ 
             <p className="mb-15 max-w-150 text-lg ">
               Nodexpay is Africa's first multi-chain crypto utility app — buy,
               send, and spend crypto directly from your bank. No exchanges. No
@@ -47,12 +49,43 @@ export default function HeroSection() {
               <input
                 type="email"
                 placeholder="Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 rounded-3xl border  border-white/10 bg-white/7   p-4  outline-none focus:border-blue-500/50 transition-all placeholder:text-gray-600"
+                aria-label="Email address"
               />
-              <button className="rounded-xl bg-blue-900 text-xl text-gray-500 px-3 py-4 hadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all hover:bg-blue-900 active:scale-95">
-                Join the waitlist
+              <button
+                onClick={async () => {
+                  if (loading) return
+                  setStatus('loading')
+                  setLoading(true)
+                  try {
+                    const res = await fetch('/api/waitlist', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ email }),
+                    })
+                    if (res.ok) {
+                      setStatus('sent')
+                      setEmail('')
+                    } else {
+                      setStatus('error')
+                    }
+                  } catch (err) {
+                    setStatus('error')
+                  } finally {
+                    setLoading(false)
+                  }
+                }}
+                disabled={loading}
+                className="rounded-xl bg-blue-900 text-xl text-gray-500 px-3 py-4 hadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all hover:bg-blue-900 active:scale-95 disabled:opacity-50"
+              >
+                {loading ? 'Joining…' : 'Join the waitlist'}
               </button>
             </div>
+
+            {status === 'sent' && <div className="text-green-400">Thanks — you're on the list.</div>}
+            {status === 'error' && <div className="text-red-400">Could not add email. Try again.</div>}
 
             <div className="mb-25 mt-8  mx-auto">
               <img src="/join.png" alt="" />
