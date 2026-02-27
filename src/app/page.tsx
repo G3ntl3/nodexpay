@@ -691,7 +691,7 @@ export default function Page() {
             <div className="footer-brand">
               <a className="logo-mark" href="#">
                 <img src="/logo.png" className="logo-img" alt="Nodex Pay" />
-                <span className="logo-text">NODEX PAY</span>
+                <span className="logo-text">NODEXPAY</span>
               </a>
               <p className="footer-brand-desc lg:text-2xl">
                 Africa&apos;s first multi-chain crypto utility app. Finance without borders, crypto that works in real life.
