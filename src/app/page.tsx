@@ -78,7 +78,38 @@ function SuccessToast({ message, visible }: {
   )
 }
 
-// ─── EmailForm Component ───────────────────────────────────────────────────────
+// ─── Party Popper Component ────────────────────────────────────────────────────
+function PartyPopper({ trigger }: { trigger: boolean }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!trigger || !containerRef.current) return
+
+    const colors = ['color-1', 'color-2', 'color-3', 'color-4', 'color-5']
+    const particleCount = 50
+
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div')
+      particle.className = `confetti-particle ${colors[Math.floor(Math.random() * colors.length)]}`
+      
+      const angle = (Math.random() * Math.PI * 2)
+      const velocity = 4 + Math.random() * 8
+      const tx = Math.cos(angle) * velocity * (60 + Math.random() * 40)
+      const ty = Math.sin(angle) * velocity * (60 + Math.random() * 40) - 100
+      
+      particle.style.setProperty('--tx', `${tx}px`)
+      particle.style.setProperty('--ty', `${ty}px`)
+      particle.style.left = '0'
+      particle.style.top = '0'
+      
+      containerRef.current.appendChild(particle)
+
+      setTimeout(() => particle.remove(), 2500)
+    }
+  }, [trigger])
+
+  return <div ref={containerRef} className="party-popper" />
+}// ─── EmailForm Component ───────────────────────────────────────────────────────
 function EmailForm({ source, btnLabel = 'Join the waitlist', wide = false, onSuccess }: {
   source: string
   btnLabel?: string
@@ -492,6 +523,7 @@ function DevPopup({ open, onClose, onNotify, notified }: {
 export default function Page() {
   const [showToast, setShowToast] = useState(false)
   const [showImage, setShowImage] = useState(false)
+  const [partyTrigger, setPartyTrigger] = useState(false)
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   useScrollReveal()
@@ -506,6 +538,7 @@ export default function Page() {
   const handleFormSuccess = useCallback(() => {
     setShowToast(true)
     setShowImage(true)
+    setPartyTrigger(prev => !prev)
     if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current)
     toastTimeoutRef.current = setTimeout(() => setShowToast(false), 4000)
   }, [])
@@ -564,8 +597,6 @@ export default function Page() {
           <EmailForm source="Hero Waitlist" onSuccess={handleFormSuccess} />
         </div>
 
-        {showToast && <SuccessToast message="Welcome to the waitlist! 🎉" visible={showToast} />}
-
         <div className="social-proof reveal d4">
           <div className="avatars">
             {/* <span className="avatar av1">JK</span>
@@ -621,7 +652,7 @@ export default function Page() {
             <div className="orbit-ring r2"><div className="orbit-dot od-cyan" /></div>
             <div className="orbit-ring r3"><div className="orbit-dot od-white" /></div>
             <div className="orbit-center">
-              <img src="/logo.png" alt="Nodex Pay" style={{ width: 52, height: 52, objectFit: 'contain', mixBlendMode: 'screen', filter: 'brightness(1.8) contrast(1.2)' }} />
+              <img src="/logo.png" alt="Nodex Pay" className="orbit-logo" />
             </div>
           </div>
 
@@ -678,7 +709,7 @@ export default function Page() {
             <div className="footer-cta-glow" />
             <h2>Ready to bank without borders?</h2>
             <p>Join thousands across Africa waiting for a smarter way to use crypto.</p>
-            <EmailForm source="Footer Early Access" btnLabel="Get Early Access" wide />
+            <EmailForm source="Footer Early Access" btnLabel="Get Early Access" wide onSuccess={handleFormSuccess} />
           </div>
 
           {/* Footer top */}
@@ -688,7 +719,7 @@ export default function Page() {
                 <img src="/logo.png" className="logo-img" alt="Nodex Pay" />
                 <span className="logo-text">NODEX PAY</span>
               </a>
-              <p className="footer-brand-desc">
+              <p className="footer-brand-desc lg:text-2xl">
                 Africa&apos;s first multi-chain crypto utility app. Finance without borders, crypto that works in real life.
               </p>
               <span className="footer-chip">Coming Soon</span>
@@ -721,6 +752,10 @@ export default function Page() {
 
       {/* DEV POPUP */}
       <DevPopup open={devOpen} onClose={devClose} onNotify={devNotify} notified={notified} />
+
+      {/* SUCCESS TOAST & PARTY POPPER */}
+      <SuccessToast message="Welcome to the waitlist! 🎉" visible={showToast} />
+      <PartyPopper trigger={partyTrigger} />
     </>
   )
 }
