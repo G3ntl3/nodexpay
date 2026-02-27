@@ -547,7 +547,7 @@ export default function Page() {
       <section className="hero">
         <div className="hero-bg" />
         <div className="hero-grid" />
-
+{/* 
        <div className="hero-stats reveal " ref={statsRef as React.RefObject<HTMLDivElement>}>
           <div className="stat-item">
             <div className="stat-num">{waitlistCount.toLocaleString()}+</div>
@@ -557,7 +557,7 @@ export default function Page() {
             <div className="stat-num" ref={frictionRef as React.RefObject<HTMLDivElement>}>{frictionVal}%</div>
             <div className="stat-label">Zero Friction</div>
           </div>
-        </div>
+        </div> */}
 
         <h1 className="hero-h1 reveal d1 lg:text-5xl text-3xl">
           Finance without borders.<br />
