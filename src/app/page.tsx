@@ -573,12 +573,9 @@ export default function Page() {
         </div>
  
         <div className="social-proof reveal d4">
-          <div className="avatars">
-            {/* <span className="avatar av1">JK</span>
-            <span className="avatar av2">AM</span>
-            <span className="avatar av3">TF</span> */}
-            { <img src="/join.png" alt="" />}
-          </div>
+      
+            { <img className='' src="/join.png" alt="" />}
+        
 
           Join 1000 others already on the waitlist
         </div>
