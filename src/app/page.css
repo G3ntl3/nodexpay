@@ -123,7 +123,7 @@ html[data-theme="light"] .logo-text {
 .hero-stats { display: flex; gap: 3rem; margin-bottom: 2.5rem; position: relative; }
 .stat-item { text-align: center; }
 .stat-num {
-  font-family: var(--font-cinzel), sans-serif; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.04em;
+  font-family: var(--font-cinzel), sans-serif; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.04em;
   background: linear-gradient(135deg, #fff, var(--blue-light));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1;
 }
