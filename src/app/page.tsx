@@ -1,346 +1,634 @@
-"use client";
-import React, { useState } from "react";
-import {
-  AlertCircle,
-  TrendingUp,
-  Ban,
-  ArrowRightLeft,
-  CreditCard,
-  Wallet,
-  Shield,
-} from "lucide-react";
+'use client'
 
-export default function HeroSection() {
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
+import './page.css'
+import { useEffect, useRef, useState, useCallback } from 'react'
 
-  return (
-    <div className="min-h-screen  pb-20  text-white relative overflow-hidden selection:bg-blue-500/30">
-      <div className="10 mx-auto pb-24">
-        <div className=" herobg ">
-      
-          {/* Navigation / Logo */}
-          <nav className="lg:mb-30 pt-12 ms-5 lg:ms-20">
-            <img src="/logo.png" className="w-18 lg:w-20 " alt="" />
-          </nav>
-          {/* Hero Content */}
-          <section className="flex  flex-col  items-center text-center">
-            <div className="lg:mb-15 w-50 mt-30 lg:mt-0 lg:w-50">
-              <img src="/wait.png" alt="" />
-            </div>
-            <h1 className="mb- max-w-4xl text-3xl mt-20  font-bold md:text-5xl">
-              Finance without borders.
-            </h1>
-            <h1 className="mb-5 max-w-4xl px-5 text-3xl text-start   font-bold md:text-5xl">
-              <span className="text-white/90  ">
-                Crypto that works in real life.
-              </span>
-            </h1>
- 
-            <p className="mb-15 max-w-150 text-lg ">
-              Nodexpay is Africa's first multi-chain crypto utility app — buy,
-              send, and spend crypto directly from your bank. No exchanges. No
-              friction.
-            </p>
-
-            {/* Input Group */}
-            <div className="mb-10 w-170 flex flex-col gap-3 sm:flex-row">
-              <input
-                type="email"
-                placeholder="Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 rounded-3xl border  border-white/10 bg-white/7   p-4  outline-none focus:border-blue-500/50 transition-all placeholder:text-gray-600"
-                aria-label="Email address"
-              />
-              <button
-                onClick={async () => {
-                  if (loading) return
-                  setStatus('loading')
-                  setLoading(true)
-                  try {
-                    const res = await fetch('/api/waitlist', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ email }),
-                    })
-                    if (res.ok) {
-                      setStatus('sent')
-                      setEmail('')
-                    } else {
-                      setStatus('error')
-                    }
-                  } catch (err) {
-                    setStatus('error')
-                  } finally {
-                    setLoading(false)
-                  }
-                }}
-                disabled={loading}
-                className="rounded-xl bg-blue-900 text-xl text-gray-500 px-3 py-4 hadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all hover:bg-blue-900 active:scale-95 disabled:opacity-50"
-              >
-                {loading ? 'Joining…' : 'Join the waitlist'}
-              </button>
-            </div>
-
-            {status === 'sent' && <div className="text-green-400">Thanks — you're on the list.</div>}
-            {status === 'error' && <div className="text-red-400">Could not add email. Try again.</div>}
-
-            <div className="mb-25 mt-8  mx-auto">
-              <img src="/join.png" alt="" />
-            </div>
-          </section>
-        </div>
-        {/* Problem Section (Cards from image 2) */}
-        <section className=" pt-20 pb-10  px-6  bg-[#161719]  w-full">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="mb-6 text-center text-3xl font-bold tracking-tight text-white">
-              Crypto access in Africa is broken.
-            </h2>
-
-            <div className="grid gap-16 md:grid-cols-3 md:gap-8">
-              <ProblemCard
-                icon={<AlertCircle size={24} strokeWidth={2.5} />}
-                image="/block.png"
-                title="Hard to buy crypto without exchanges"
-                desc="Most platforms rely on exchanges and unreliable P2P systems."
-              />
-              <ProblemCard
-                icon={<TrendingUp size={24} strokeWidth={2.5} />}
-                image="/high.png"
-                title="High fees & friction"
-                desc="Multiple steps, swaps, and delays make simple transactions stressful."
-              />
-              <ProblemCard
-                icon={<Ban size={24} strokeWidth={2.5} />}
-                image="/error.png"
-                title="No real-world utility"
-                desc="Crypto is hard to spend on everyday needs."
-              />
-            </div>
-          </div>
-        </section>
-        {/* Problem Section */}
-
-        {/* Middle Section - Value Proposition */}
-        <section className="p bg-[#161719]  px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="mb-6 text-xl md:text-xl font-bold tracking-tight text-white">
-              Nodexpay turns crypto into everyday spending power.
-            </h2>
-            <p className=" w-120 italic mx-auto pb-20">
-              With Nodexpay, users can move seamlessly between banks and crypto,
-              pay bills, and manage digital assets in one simple app — designed
-              for real-world <br /> use
-            </p>
-          </div>
-        </section>
-
-        {/* Features Section */}
-        <section className="py-24 px-6 bg-[#161719]">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="mb-16 text-center text-xl md:text-3xl font-bold tracking-tight text-white">
-              Everything you need in one powerful app
-            </h2>
-
-            <div className="grid mx-auto gap-8 lg:mb-40 mb-10 md:grid-cols-2 lg:gap-100  ">
-              {/* Card 1: Bank to Crypto Instantly */}
-              <div className="group relative rounded-[16px] lg:max-w-90 border border-blue-500/40 bg-[#172644] p-8 transition-all duration-500 hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-500/20">
-                <div className="absolute inset-0 rounded-[16px] bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 mb-5 text-blue-400">
-                  <ArrowRightLeft size={32} strokeWidth={2} />
-                </div>
-                <div className="relative z-10">
-                  <h3 className="mb-3 text-lg font-semibold text-white tracking-tight">
-                    Bank to Crypto Instantly
-                  </h3>
-                  <p className="text-[15px] leading-relaxed text-gray-300">
-                    Buy and sell crypto directly from your bank, without
-                    centralized exchanges.
-                  </p>
-                </div>
-              </div>
-
-              {/* Card 2: Pay Bills with Crypto */}
-              <div className="group relative rounded-[16px] lg:max-w-90  border border-blue-500/40 bg-[#172644] p-8 transition-all duration-500 hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-500/20">
-                <div className="absolute inset-0 rounded-[16px] bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 mb-5 text-blue-400">
-                  <CreditCard size={32} strokeWidth={2} />
-                </div>
-                <div className="relative z-10">
-                  <h3 className="mb-3 text-lg font-semibold text-white tracking-tight">
-                    Pay Bills with Crypto
-                  </h3>
-                  <p className="text-[15px] leading-relaxed text-gray-300">
-                    Airtime, data, subscriptions, and utilities — all in one
-                    place.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="mx-auto  lg:ps-20  gap-8 md:grid-cols-2 lg:gap-70 flex justify-center flex-col lg:flex-row">
-              {/* Card 3: Multi-chain Wallet */}
-              <div className="group relative  rounded-[16px] lg:max-w-90  border border-blue-500/40 bg-[#172644] p-8 transition-all duration-500 hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-500/20">
-                <div className="absolute inset-0 rounded-[16px] bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 mb-5 text-blue-400">
-                  <Wallet size={32} strokeWidth={2} />
-                </div>
-                <div className="relative z-10">
-                  <h3 className="mb-3 text-lg font-semibold text-white tracking-tight">
-                    Multi-chain Wallet
-                  </h3>
-                  <p className="text-[15px] leading-relaxed text-gray-300">
-                    Manage assets across multiple blockchains with a unified
-                    wallet experience.
-                  </p>
-                </div>
-              </div>
-
-              {/* Card 4: Secure Identity Integration */}
-              <div className="group relative rounded-[16px] lg:ms-10 lg:max-w-90  border border-blue-500/40 bg-[#172644] p-8 transition-all duration-500 hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-500/20">
-                <div className="absolute inset-0 rounded-[16px] bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 mb-5 text-blue-400">
-                  <Shield size={32} strokeWidth={2} />
-                </div>
-                <div className="relative z-10">
-                  <h3 className="mb-3 text-lg font-semibold text-white tracking-tight">
-                    Secure Identity Integration
-                  </h3>
-                  <p className="text-[15px] leading-relaxed text-gray-300">
-                    Built-in compliance and decentralized identity for safe
-                    transactions.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Get Started Section */}
-        <section className="bg-[#161719] py-24 px-6 relative overflow-hidden">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
-            
-            {/* Left Column: Title and Image Placeholder */}
-            <div>
-              <h2 className="text-5xl md:text-6xl font-bold tracking-tight text-white mb-16 leading-tight">
-                Get started in <br /> minutes
-              </h2>
-              
-              {/* Image Placeholder - Add your image here */}
-              <div className="relative h-[450px] w-full flex items-center justify-center">
-                <div className="w-full h-full rounded-3xl flex items-center justify-center relative overflow-hidden p-8">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-purple-600/10 -z-10 blur-3xl opacity-50"></div>
-                  {/* Add your image here */}
-                  <img src="/shield.png" alt="Get Started Visual" className="w-full h-full object-contain" />
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Curved SVG Timeline (numbers sit on the curve; labels to the right) */}
-            <div className="relative w-full">
-              <svg viewBox="0 0 600 760" className="w-full h-[760px]" preserveAspectRatio="xMidYMid meet">
-                <defs>
-                  <linearGradient id="g1" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#60a5fa" stopOpacity="1" />
-                    <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.6" />
-                    <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.08" />
-                  </linearGradient>
-                  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="6" result="coloredBlur" />
-                    <feMerge>
-                      <feMergeNode in="coloredBlur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-                {/* main curved path (left-facing C) — passes through the circle Y positions */}
-                <path d="M500 20 C 360 120, 360 240, 500 320 C 360 400, 360 520, 500 600" fill="none" stroke="url(#g1)" strokeWidth="5" strokeLinecap="round" filter="url(#glow)" />
-                <path d="M500 20 C 360 120, 360 240, 500 320 C 360 400, 360 520, 500 600" fill="none" stroke="#0ea5e9" strokeOpacity="0.06" strokeWidth="26" strokeLinecap="round" />
-
-                {/* Step positions (circles placed exactly on the curve x=500) */}
-                <g>
-                  <circle cx="500" cy="90" r="28" fill="#0a1020" stroke="#1e40af" strokeWidth="3" filter="url(#glow)" />
-                  <text x="500" y="90" fill="#93c5fd" fontSize="12" fontWeight="700" dominantBaseline="middle" textAnchor="middle">01</text>
-                  <text x="540" y="82" fill="#ffffff" fontSize="16" fontWeight="700">Create your account</text>
-                  <text x="540" y="98" fill="#94a3b8" fontSize="13">Sign up and verify your identity securely.</text>
-                </g>
-
-                <g>
-                  <circle cx="500" cy="230" r="28" fill="#0a1020" stroke="#1e40af" strokeWidth="3" filter="url(#glow)" />
-                  <text x="500" y="230" fill="#93c5fd" fontSize="12" fontWeight="700" dominantBaseline="middle" textAnchor="middle">02</text>
-                  <text x="540" y="222" fill="#ffffff" fontSize="16" fontWeight="700">Connect your bank</text>
-                  <text x="540" y="238" fill="#94a3b8" fontSize="13">Link your bank for seamless transactions.</text>
-                </g>
-
-                <g>
-                  <circle cx="500" cy="370" r="28" fill="#0a1020" stroke="#1e40af" strokeWidth="3" filter="url(#glow)" />
-                  <text x="500" y="370" fill="#93c5fd" fontSize="12" fontWeight="700" dominantBaseline="middle" textAnchor="middle">03</text>
-                  <text x="540" y="362" fill="#ffffff" fontSize="16" fontWeight="700">Buy or receive crypto</text>
-                  <text x="540" y="378" fill="#94a3b8" fontSize="13">Move funds instantly across chains.</text>
-                </g>
-
-                <g>
-                  <circle cx="500" cy="510" r="28" fill="#0a1020" stroke="#1e40af" strokeWidth="3" filter="url(#glow)" />
-                  <text x="500" y="510" fill="#93c5fd" fontSize="12" fontWeight="700" dominantBaseline="middle" textAnchor="middle">04</text>
-                  <text x="540" y="502" fill="#ffffff" fontSize="16" fontWeight="700">Spend anywhere</text>
-                  <text x="540" y="518" fill="#94a3b8" fontSize="13">Pay bills and use crypto like cash.</text>
-                </g>
-              </svg>
-            </div>
-          </div>
-        </section>
-         </div>
-    </div>
-  );
+// ─── Types ────────────────────────────────────────────────────────────────────
+interface FormState {
+  status: 'idle' | 'loading' | 'success' | 'error'
+  message: string
 }
 
-function ProblemCard({
-  icon,
-  image,
-  title,
-  desc,
-}: {
-  icon: React.ReactNode;
-  image: string;
-  title: string;
-  desc: string;
+interface Particle {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  r: number
+  phase: number
+  spd: number
+  update: (W: number, H: number) => void
+  draw: (ctx: CanvasRenderingContext2D) => void
+}
+
+interface Flash {
+  a: Particle
+  b: Particle
+  life: number
+}
+
+// ─── Waitlist Hook ─────────────────────────────────────────────────────────────
+function useWaitlist() {
+  const [state, setState] = useState<FormState>({ status: 'idle', message: '' })
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+
+  const submit = useCallback(async (email: string, onSuccess?: () => void) => {
+    if (!email.trim()) return
+    setState({ status: 'loading', message: '' })
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current)
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      const data = await res.json()
+      if (res.ok && data.ok) {
+        setState({ status: 'success', message: "You're on the list — we'll be in touch!" })
+        onSuccess?.()
+      } else {
+        setState({ status: 'error', message: data.error || 'Something went wrong.' })
+      }
+    } catch {
+      setState({ status: 'error', message: 'Network error. Please try again.' })
+    }
+  }, [])
+
+  const reset = useCallback(() => {
+    setState({ status: 'idle', message: '' })
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current)
+  }, [])
+
+  return { state, submit, reset, toastTimeoutRef }
+}
+
+// ─── Success Toast Component ───────────────────────────────────────────────────
+function SuccessToast({ message, visible }: {
+  message: string
+  visible: boolean
 }) {
   return (
-    <div className="relative pt-16">
-      {/* Main Card Container with Gradient Border */}
-      <div className="group relative rounded-[28px] p-[1.5px] transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl">
-        {/* Animated Gradient Border */}
-        <div className="absolute inset-0 rounded-[27px] opacity-75 group-hover:opacity-100 transition-opacity duration-500" />
+    <div className={`success-toast ${visible ? 'visible' : ''}`}>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="9" fill="#2563eb" />
+        <path d="M6 10l3 3 5-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      <span>{message}</span>
+    </div>
+  )
+}
 
-        {/* Glassmorphism Card Content */}
-        <div className="relative flex min-h-[200px] flex-col items-center rounded-[20px]    bg-[#172644] p-10  text-center backdrop-blur-2xl border border-[#17449e] shadow-2xl">
-          {/* Icon Container - Positioned Above Card */}
-          <div className="absolute -top-13 left-1/2 -translate-x-1/2">
-            {/* Icon Background Circle with Glassmorphism */}
-            <div className="relative flex h-24 w-24 items-center justify-center">
-              <img
-                src={image}
-                className="w-full h-full object-contain"
-                alt=""
-              />
+// ─── EmailForm Component ───────────────────────────────────────────────────────
+function EmailForm({ source, btnLabel = 'Join the waitlist', wide = false, onSuccess }: {
+  source: string
+  btnLabel?: string
+  wide?: boolean
+  onSuccess?: () => void
+}) {
+  const [email, setEmail] = useState('')
+  const { state, submit } = useWaitlist()
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    submit(email, onSuccess)
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className={wide ? 'input-wrap-wide' : 'input-wrap'}>
+      <input
+        type="email"
+        placeholder="Email Address"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        className="email-input"
+        required
+        aria-label="Email address"
+        data-source={source}
+        disabled={state.status === 'loading'}
+      />
+      <button
+        type="submit"
+        disabled={state.status === 'loading'}
+        className="btn-primary"
+      >
+        {state.status === 'loading' ? 'Joining…' : btnLabel}
+      </button>
+      {state.status === 'error' && (
+        <p className="form-error">{state.message}</p>
+      )}
+    </form>
+  )
+}
+
+// ─── Scroll Reveal Hook ────────────────────────────────────────────────────────
+function useScrollReveal() {
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible')
+        else e.target.classList.remove('visible')
+      }),
+      { threshold: 0.12 }
+    )
+    document.querySelectorAll('.reveal, .reveal-left').forEach(el => io.observe(el))
+    return () => io.disconnect()
+  }, [])
+}
+
+// ─── Counter Hook ──────────────────────────────────────────────────────────────
+function useCounterAnimation(target: number, duration = 1500) {
+  const [value, setValue] = useState(10)
+  const [started, setStarted] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!ref.current) return
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started) {
+        setStarted(true)
+        const t0 = performance.now()
+        const start = 10
+        const tick = (now: number) => {
+          const prog = Math.min((now - t0) / duration, 1)
+          setValue(Math.round(start + (target - start) * prog))
+          if (prog < 1) requestAnimationFrame(tick)
+          else setValue(target)
+        }
+        requestAnimationFrame(tick)
+      }
+    }, { threshold: 0.5 })
+    io.observe(ref.current)
+    return () => io.disconnect()
+  }, [target, duration, started])
+
+  return { value, ref }
+}
+
+// ─── Typewriter Hook ───────────────────────────────────────────────────────────
+function useTypewriter(text: string) {
+  const [displayed, setDisplayed] = useState('')
+  const [done, setDone] = useState(false)
+  const [started, setStarted] = useState(false)
+  const ref = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    if (!ref.current) return
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started) {
+        setStarted(true)
+        let i = 0
+        const tick = () => {
+          if (i <= text.length) {
+            setDisplayed(text.slice(0, i))
+            i++
+            setTimeout(tick, 45)
+          } else {
+            setDone(true)
+          }
+        }
+        tick()
+      }
+    }, { threshold: 0.5 })
+    io.observe(ref.current)
+    return () => io.disconnect()
+  }, [text, started])
+
+  return { displayed, done, ref }
+}
+
+// ─── Canvas Nodes Hook ─────────────────────────────────────────────────────────
+function useNodesCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    let W = 0, H = 0
+    let particles: Particle[] = []
+    let flashes: Flash[] = []
+    let animId: number
+
+    const makeParticle = (): Particle => {
+      const p: Particle = {
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.7, vy: (Math.random() - 0.5) * 0.7,
+        r: Math.random() * 2.5 + 1.5, phase: Math.random() * Math.PI * 2,
+        spd: 0.025 + Math.random() * 0.04,
+        update(W: number, H: number) {
+          this.x += this.vx; this.y += this.vy; this.phase += this.spd
+          if (this.x < 0 || this.x > W) this.vx *= -1
+          if (this.y < 0 || this.y > H) this.vy *= -1
+        },
+        draw(ctx: CanvasRenderingContext2D) {
+          const a = 0.45 + 0.55 * Math.abs(Math.sin(this.phase))
+          ctx.beginPath()
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(59,130,246,${a})`
+          ctx.fill()
+          const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 6)
+          g.addColorStop(0, `rgba(59,130,246,${a * 0.32})`)
+          g.addColorStop(1, 'rgba(59,130,246,0)')
+          ctx.beginPath()
+          ctx.arc(this.x, this.y, this.r * 6, 0, Math.PI * 2)
+          ctx.fillStyle = g; ctx.fill()
+        }
+      }
+      return p
+    }
+
+    const resize = () => {
+      W = canvas.width = canvas.offsetWidth
+      H = canvas.height = canvas.offsetHeight
+      particles = Array.from({ length: 30 }, makeParticle)
+    }
+
+    const drawBolt = (ax: number, ay: number, bx: number, by: number, life: number) => {
+      const pts: [number, number][] = [[ax, ay]]
+      for (let i = 1; i < 7; i++) {
+        const t = i / 7
+        pts.push([ax + (bx - ax) * t + (Math.random() - 0.5) * 22,
+                  ay + (by - ay) * t + (Math.random() - 0.5) * 22])
+      }
+      pts.push([bx, by])
+      ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1])
+      pts.slice(1).forEach(([x, y]) => ctx.lineTo(x, y))
+      ctx.strokeStyle = `rgba(120,220,255,${life * 0.9})`
+      ctx.lineWidth = 1.4; ctx.shadowColor = 'rgba(100,200,255,0.95)'
+      ctx.shadowBlur = 12; ctx.stroke(); ctx.shadowBlur = 0
+    }
+
+    const loop = () => {
+      animId = requestAnimationFrame(loop)
+      ctx.clearRect(0, 0, W, H)
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x
+          const dy = particles[i].y - particles[j].y
+          const d = Math.sqrt(dx * dx + dy * dy)
+          if (d < 95) {
+            ctx.beginPath()
+            ctx.moveTo(particles[i].x, particles[i].y)
+            ctx.lineTo(particles[j].x, particles[j].y)
+            ctx.strokeStyle = `rgba(37,99,235,${(1 - d / 95) * 0.38})`
+            ctx.lineWidth = 0.9; ctx.stroke()
+          }
+        }
+      }
+      if (Math.random() < 0.035 && particles.length > 1) {
+        const a = particles[Math.floor(Math.random() * particles.length)]
+        const b = particles[Math.floor(Math.random() * particles.length)]
+        if (a !== b) flashes.push({ a, b, life: 1 })
+      }
+      flashes = flashes.filter(f => f.life > 0)
+      flashes.forEach(f => { drawBolt(f.a.x, f.a.y, f.b.x, f.b.y, f.life); f.life -= 0.07 })
+      particles.forEach(p => { p.update(W, H); p.draw(ctx) })
+    }
+
+    resize()
+    loop()
+
+    let resizeTimer: ReturnType<typeof setTimeout>
+    const onResize = () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(resize, 150)
+    }
+    window.addEventListener('resize', onResize)
+    return () => {
+      cancelAnimationFrame(animId)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
+
+  return canvasRef
+}
+
+// ─── Dev Popup Hook ────────────────────────────────────────────────────────────
+function useDevPopup() {
+  const [open, setOpen] = useState(false)
+  const [notified, setNotified] = useState(false)
+
+  const trigger = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    setOpen(true)
+    setNotified(false)
+  }, [])
+
+  const close = useCallback(() => setOpen(false), [])
+
+  const notify = useCallback(() => {
+    setNotified(true)
+    setTimeout(() => setOpen(false), 1400)
+  }, [])
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    if (open) document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [open])
+
+  return { open, trigger, close, notify, notified }
+}
+
+// ─── DevPopup Component ────────────────────────────────────────────────────────
+function DevPopup({ open, onClose, onNotify, notified }: {
+  open: boolean
+  onClose: () => void
+  onNotify: () => void
+  notified: boolean
+}) {
+  if (!open) return null
+  return (
+    <div className="dev-overlay" onClick={e => { if (e.target === e.currentTarget) onClose() }}>
+      <div className="dev-popup">
+        <div className="dev-popup-glow" />
+        <button className="dev-close" onClick={onClose} aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </button>
+        <div className="dev-icon">
+          <div className="dev-icon-ring" />
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M6 10l10-6 10 6v12l-10 6-10-6V10z" stroke="url(#pg)" strokeWidth="1.5" strokeLinejoin="round" />
+            <path d="M6 10l10 6m0 0l10-6m-10 6v12" stroke="url(#pg2)" strokeWidth="1.5" />
+            <circle cx="16" cy="16" r="3" fill="url(#pg3)" opacity="0.9" />
+            <defs>
+              <linearGradient id="pg" x1="6" y1="10" x2="26" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#3b82f6" /><stop offset="1" stopColor="#06b6d4" />
+              </linearGradient>
+              <linearGradient id="pg2" x1="6" y1="10" x2="26" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#3b82f6" stopOpacity="0.5" /><stop offset="1" stopColor="#06b6d4" stopOpacity="0.5" />
+              </linearGradient>
+              <radialGradient id="pg3" cx="50%" cy="50%" r="50%">
+                <stop stopColor="#60a5fa" /><stop offset="1" stopColor="#06b6d4" />
+              </radialGradient>
+            </defs>
+          </svg>
+        </div>
+        <div className="dev-tag">
+          <span className="dev-tag-dot" />
+          In Development
+        </div>
+        <h3 className="dev-title">We&apos;re building<br />something <em>great</em></h3>
+        <p className="dev-body">
+          This feature isn&apos;t live just yet — our team is working hard to bring it to life.
+          Join the waitlist and be the first to know when it drops.
+        </p>
+        <div className="dev-dots">
+          <span /><span /><span />
+        </div>
+        <button
+          className="dev-cta"
+          onClick={onNotify}
+          style={notified ? { background: 'linear-gradient(135deg,#059669,#10b981)', boxShadow: '0 0 24px rgba(16,185,129,0.4)' } : {}}
+        >
+          {notified ? '✓ You\'re on the list!' : (
+            <>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 1a5 5 0 015 5c0 3 1 4 2 5H1c1-1 2-2 2-5a5 5 0 015-5zM6 13a2 2 0 004 0" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Notify me when it&apos;s ready
+            </>
+          )}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ─── Main Page Component ───────────────────────────────────────────────────────
+export default function Page() {
+  const [showToast, setShowToast] = useState(false)
+  const [showImage, setShowImage] = useState(false)
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+
+  useScrollReveal()
+  const canvasRef = useNodesCanvas()
+  const { open: devOpen, trigger: devTrigger, close: devClose, notify: devNotify, notified } = useDevPopup()
+
+  const typeText = 'With Nodexpay, users can move seamlessly between banks and crypto, pay bills, and manage digital assets — all in one simple app designed for real-world use.'
+  const { displayed: typeDisplayed, done: typeDone, ref: typeRef } = useTypewriter(typeText)
+  const { value: waitlistCount, ref: statsRef } = useCounterAnimation(1000, 1500)
+  const { value: frictionVal, ref: frictionRef } = useCounterAnimation(100, 800)
+
+  const handleFormSuccess = useCallback(() => {
+    setShowToast(true)
+    setShowImage(true)
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current)
+    toastTimeoutRef.current = setTimeout(() => setShowToast(false), 4000)
+  }, [])
+
+  // Feat card spotlight
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget
+    const r = card.getBoundingClientRect()
+    card.style.setProperty('--mx', `${e.clientX - r.left}px`)
+    card.style.setProperty('--my', `${e.clientY - r.top}px`)
+  }, [])
+
+  return (
+    <>
+      {/* NAV */}
+      <nav className="nav">
+        <a className="logo-mark" href="#">
+          <img src="/logo.png" className="logo-img" alt="Nodex Pay" />
+          {/* <span className="logo-text">NODEX PAY</span> */}
+        </a>
+        <span className="waitlist-badge">
+          <span className="badge-dot" />
+          Waitlist is Live
+        </span>
+      </nav>
+
+      {/* HERO */}
+      <section className="hero">
+        <div className="hero-bg" />
+        <div className="hero-grid" />
+
+        <div className="hero-stats reveal" ref={statsRef as React.RefObject<HTMLDivElement>}>
+          <div className="stat-item">
+            <div className="stat-num">{waitlistCount.toLocaleString()}+</div>
+            <div className="stat-label">Waitlist Users</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-num" ref={frictionRef as React.RefObject<HTMLDivElement>}>{frictionVal}%</div>
+            <div className="stat-label">Zero Friction</div>
+          </div>
+        </div>
+
+        <h1 className="hero-h1 reveal d1">
+          Finance without borders.<br />
+          <em>Crypto that works</em> in real life.
+        </h1>
+        <p className="hero-desc reveal d2">
+          Nodexpay is Africa&apos;s first multi-chain crypto utility app — buy, send, and spend
+          crypto directly from your bank. No exchanges. No friction.
+        </p>
+
+        <div className="reveal d3">
+          <EmailForm source="Hero Waitlist" onSuccess={handleFormSuccess} />
+        </div>
+
+        {showToast && <SuccessToast message="Welcome to the waitlist! 🎉" visible={showToast} />}
+
+        <div className="social-proof reveal d4">
+          <div className="avatars">
+            {/* <span className="avatar av1">JK</span>
+            <span className="avatar av2">AM</span>
+            <span className="avatar av3">TF</span> */}
+            { <img src="/join.png" alt="" />}
+          </div>
+
+          Join +{waitlistCount.toLocaleString()} others already on the waitlist
+        </div>
+      </section>
+
+      {/* PROBLEM */}
+      <section className="problem">
+        <p className="section-label reveal">The Problem</p>
+        <h2 className="section-title reveal">Crypto access in Africa is broken.</h2>
+        <p className="section-sub reveal">Existing platforms make it painful to buy, swap, and use crypto in everyday life.</p>
+
+        <div className="problem-cards">
+          {[
+            { icon: '⏳', title: 'Hard to buy crypto without exchanges', desc: 'Most platforms rely on exchanges and unreliable P2P systems that slow you down.' },
+            { icon: '💸', title: 'High fees & friction', desc: 'Multiple steps, swaps, and delays make simple transactions stressful and expensive.' },
+            { icon: '🚫', title: 'No real-world utility', desc: 'Crypto is hard to spend on everyday needs. It stays locked in wallets, unused.' },
+          ].map((c, i) => (
+            <div key={i} className={`problem-card reveal d${i + 1}`}>
+              <div className="card-icon">{c.icon}</div>
+              <h3>{c.title}</h3>
+              <p>{c.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="problem-cta-text reveal">
+          <strong>Nodexpay turns crypto into everyday spending power.</strong>
+          <p
+            ref={typeRef}
+            className={`typewriter${typeDone ? ' done' : ''}`}
+          >
+            {typeDisplayed}
+          </p>
+        </div>
+      </section>
+
+      {/* FEATURES */}
+      <section className="features">
+        <p className="section-label reveal">Features</p>
+        <h2 className="section-title reveal">Everything you need in one powerful app</h2>
+
+        <div className="features-arena">
+          {/* Orbit */}
+          <div className="orbit-system">
+            <div className="orbit-ring r1"><div className="orbit-dot od-blue" /></div>
+            <div className="orbit-ring r2"><div className="orbit-dot od-cyan" /></div>
+            <div className="orbit-ring r3"><div className="orbit-dot od-white" /></div>
+            <div className="orbit-center">
+              <img src="/logo.png" alt="Nodex Pay" style={{ width: 52, height: 52, objectFit: 'contain', mixBlendMode: 'screen', filter: 'brightness(1.8) contrast(1.2)' }} />
             </div>
           </div>
 
-          {/* Card Content */}
-          <div className="relative z-10   px-2">
-            <h3 className="mb-3 text-xl font-semibold  w-50 mx-auto leading-tight text-white tracking-tight">
-              {title}
-            </h3>
-            <p className="text-[15px] w-75 mx-auto  leading-relaxed  font-light">
-              {desc}
-            </p>
+          {[
+            { pos: 'fc-tl', icon: '🏦', title: 'Bank to Crypto Instantly', desc: 'Buy and sell crypto directly from your bank without complicated exchanges.' },
+            { pos: 'fc-tr', icon: '⚡', title: 'Pay Bills with Crypto', desc: 'Airtime, data, subscriptions, and utilities — all in one place.' },
+            { pos: 'fc-bl', icon: '🔗', title: 'Multi-chain Wallet', desc: 'Manage assets across networks with a unified wallet experience.' },
+            { pos: 'fc-br', icon: '🛡️', title: 'Secure Identity Integration', desc: 'Built-in compliance and decentralized identity for safe transactions.' },
+          ].map((f, i) => (
+            <div key={i} className={`feat-card ${f.pos} reveal d${i + 1}`} onMouseMove={onMouseMove}>
+              <div className="feat-icon-wrap">{f.icon}</div>
+              <h3>{f.title}</h3>
+              <p>{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* GET STARTED */}
+    
+
+      {/* CANVAS NODES SECTION */}
+      <section className="nodes-section">
+        <div className="nodes-wrapper">
+          <div className="nodes-left reveal-left">
+            <h2>Built for the<br />real world</h2>
+            <canvas ref={canvasRef} className="nodes-canvas" />
+          </div>
+          <div className="nodes-right">
+            {[
+              { num: '01', title: 'Create your account', desc: 'Sign up and verify your identity securely in minutes.' },
+              { num: '02', title: 'Connect your bank', desc: 'Link your bank for seamless, instant transactions.' },
+              { num: '03', title: 'Buy or receive crypto', desc: 'Move funds instantly across multiple chains.' },
+              { num: '04', title: 'Spend anywhere', desc: 'Pay bills and use crypto as real-world cash.' },
+            ].map((s, i) => (
+              <div key={i} className={`step-item reveal d${i + 1}`}>
+                <div className="step-num">{s.num}</div>
+                {i < 3 && <div className="step-line" />}
+                <div className="step-content">
+                  <h4>{s.title}</h4>
+                  <p>{s.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="footer">
+        <div className="footer-inner">
+          {/* CTA Band */}
+          <div className="footer-cta-band reveal">
+            <div className="footer-cta-glow" />
+            <h2>Ready to bank without borders?</h2>
+            <p>Join thousands across Africa waiting for a smarter way to use crypto.</p>
+            <EmailForm source="Footer Early Access" btnLabel="Get Early Access" wide />
           </div>
 
-          {/* Bottom Accent Line */}
-          <div className="absolute bottom-0 left-8  right-8 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          {/* Footer top */}
+          <div className="footer-top">
+            <div className="footer-brand">
+              <a className="logo-mark" href="#">
+                <img src="/logo.png" className="logo-img" alt="Nodex Pay" />
+                <span className="logo-text">NODEX PAY</span>
+              </a>
+              <p className="footer-brand-desc">
+                Africa&apos;s first multi-chain crypto utility app. Finance without borders, crypto that works in real life.
+              </p>
+              <span className="footer-chip">Coming Soon</span>
+            </div>
+
+            {[
+              { heading: 'Product', links: ['Features', 'Roadmap', 'Pricing', 'Changelog'] },
+              { heading: 'Company', links: ['About', 'Blog', 'Careers', 'Press'] },
+              { heading: 'Legal', links: ['Privacy', 'Terms', 'Security', 'Compliance'] },
+            ].map(col => (
+              <div key={col.heading} className="footer-col">
+                <h5>{col.heading}</h5>
+                {col.links.map(l => (
+                  <a key={l} href="#" onClick={devTrigger}>{l}</a>
+                ))}
+              </div>
+            ))}
+          </div>
+
+          <div className="footer-bottom">
+            <p>© 2026 Nodex Pay. Built for Africa. 🌍</p>
+            <div className="social-links">
+              {['𝕏', '✈', 'in', '◎'].map((s, i) => (
+                <a key={i} href="#" onClick={devTrigger}>{s}</a>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  );
+      </footer>
+
+      {/* DEV POPUP */}
+      <DevPopup open={devOpen} onClose={devClose} onNotify={devNotify} notified={notified} />
+    </>
+  )
 }
