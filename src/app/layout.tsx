@@ -1,27 +1,20 @@
-import { Syne, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
+import { Cinzel, Inter } from 'next/font/google';
 import "./globals.css";
 
 // Configure the fonts
-const syne = Syne({
+const cinzel = Cinzel({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-syne',
-  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-cinzel',
+  weight: ['400', '500', '600', '700', '800', '900'],
 });
 
-const instrumentSans = Instrument_Sans({
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-instrument-sans',
-  weight: ['400', '500'],
+  variable: '--font-inter',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   style: ['normal', 'italic'],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-jetbrains-mono',
-  weight: ['300', '400', '500'],
 });
 
 export default function RootLayout({
@@ -30,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${syne.variable} ${instrumentSans.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${cinzel.variable} ${inter.variable}`}>
       <body className="font-sans antialiased">
         {children}
       </body>

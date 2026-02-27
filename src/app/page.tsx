@@ -135,7 +135,96 @@ function useScrollReveal() {
   }, [])
 }
 
-// ─── Counter Hook ──────────────────────────────────────────────────────────────
+// ─── Theme Toggle Hook ────────────────────────────────────────────────────────
+function useTheme() {
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    // Get theme from localStorage
+    const saved = localStorage.getItem('theme') as 'dark' | 'light' | null
+    const initial = saved || 'dark'
+    setTheme(initial)
+    document.documentElement.setAttribute('data-theme', initial)
+  }, [])
+
+  const toggle = useCallback(() => {
+    setTheme(prev => {
+      const next = prev === 'dark' ? 'light' : 'dark'
+      localStorage.setItem('theme', next)
+      document.documentElement.setAttribute('data-theme', next)
+      return next
+    })
+  }, [])
+
+  return { theme, toggle, mounted }
+}
+
+// ─── Theme Toggle Component ────────────────────────────────────────────────────
+function ThemeToggle() {
+  const { theme, toggle, mounted } = useTheme()
+  
+  if (!mounted) return null
+  
+  return (
+    <button
+      onClick={toggle}
+      className="theme-toggle"
+      aria-label="Toggle theme"
+      title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+    >
+      {theme === 'dark' ? (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/>
+        </svg>
+      ) : (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      )}
+    </button>
+  )
+}
+
+// ─── Icon Components ──────────────────────────────────────────────────────────
+const IconClock = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+  </svg>
+)
+const IconDollar = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+  </svg>
+)
+const IconXMark = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/>
+  </svg>
+)
+const IconBank = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2L2 7v4h20V7L12 2z"/><path d="M2 11v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9"/><line x1="7" y1="15" x2="7" y2="20"/><line x1="12" y1="15" x2="12" y2="20"/><line x1="17" y1="15" x2="17" y2="20"/>
+  </svg>
+)
+const IconBolt = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+  </svg>
+)
+const IconLink = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+  </svg>
+)
+const IconShield = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+  </svg>
+)
+
 function useCounterAnimation(target: number, duration = 1500) {
   const [value, setValue] = useState(10)
   const [started, setStarted] = useState(false)
@@ -437,10 +526,13 @@ export default function Page() {
           <img src="/logo.png" className="logo-img" alt="Nodex Pay" />
           {/* <span className="logo-text">NODEX PAY</span> */}
         </a>
-        <span className="waitlist-badge">
-          <span className="badge-dot" />
-          Waitlist is Live
-        </span>
+        <div className="nav-right">
+          <span className="waitlist-badge">
+            <span className="badge-dot" />
+            Waitlist is Live
+          </span>
+          <ThemeToggle />
+        </div>
       </nav>
 
       {/* HERO */}
@@ -494,12 +586,12 @@ export default function Page() {
 
         <div className="problem-cards">
           {[
-            { icon: '⏳', title: 'Hard to buy crypto without exchanges', desc: 'Most platforms rely on exchanges and unreliable P2P systems that slow you down.' },
-            { icon: '💸', title: 'High fees & friction', desc: 'Multiple steps, swaps, and delays make simple transactions stressful and expensive.' },
-            { icon: '🚫', title: 'No real-world utility', desc: 'Crypto is hard to spend on everyday needs. It stays locked in wallets, unused.' },
+            { icon: IconClock, title: 'Hard to buy crypto without exchanges', desc: 'Most platforms rely on exchanges and unreliable P2P systems that slow you down.' },
+            { icon: IconDollar, title: 'High fees & friction', desc: 'Multiple steps, swaps, and delays make simple transactions stressful and expensive.' },
+            { icon: IconXMark, title: 'No real-world utility', desc: 'Crypto is hard to spend on everyday needs. It stays locked in wallets, unused.' },
           ].map((c, i) => (
             <div key={i} className={`problem-card reveal d${i + 1}`}>
-              <div className="card-icon">{c.icon}</div>
+              <div className="card-icon"><c.icon /></div>
               <h3>{c.title}</h3>
               <p>{c.desc}</p>
             </div>
@@ -534,13 +626,13 @@ export default function Page() {
           </div>
 
           {[
-            { pos: 'fc-tl', icon: '🏦', title: 'Bank to Crypto Instantly', desc: 'Buy and sell crypto directly from your bank without complicated exchanges.' },
-            { pos: 'fc-tr', icon: '⚡', title: 'Pay Bills with Crypto', desc: 'Airtime, data, subscriptions, and utilities — all in one place.' },
-            { pos: 'fc-bl', icon: '🔗', title: 'Multi-chain Wallet', desc: 'Manage assets across networks with a unified wallet experience.' },
-            { pos: 'fc-br', icon: '🛡️', title: 'Secure Identity Integration', desc: 'Built-in compliance and decentralized identity for safe transactions.' },
+            { pos: 'fc-tl', icon: IconBank, title: 'Bank to Crypto Instantly', desc: 'Buy and sell crypto directly from your bank without complicated exchanges.' },
+            { pos: 'fc-tr', icon: IconBolt, title: 'Pay Bills with Crypto', desc: 'Airtime, data, subscriptions, and utilities — all in one place.' },
+            { pos: 'fc-bl', icon: IconLink, title: 'Multi-chain Wallet', desc: 'Manage assets across networks with a unified wallet experience.' },
+            { pos: 'fc-br', icon: IconShield, title: 'Secure Identity Integration', desc: 'Built-in compliance and decentralized identity for safe transactions.' },
           ].map((f, i) => (
             <div key={i} className={`feat-card ${f.pos} reveal d${i + 1}`} onMouseMove={onMouseMove}>
-              <div className="feat-icon-wrap">{f.icon}</div>
+              <div className="feat-icon-wrap"><f.icon /></div>
               <h3>{f.title}</h3>
               <p>{f.desc}</p>
             </div>
