@@ -104,7 +104,7 @@ function PartyPopper({ trigger }: { trigger: boolean }) {
       
       containerRef.current.appendChild(particle)
 
-      setTimeout(() => particle.remove(), 2500)
+      setTimeout(() => particle.remove(), 3000)
     }
   }, [trigger])
 
@@ -220,40 +220,15 @@ function ThemeToggle() {
 }
 
 // ─── Icon Components ──────────────────────────────────────────────────────────
-const IconClock = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-  </svg>
-)
-const IconDollar = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-  </svg>
-)
-const IconXMark = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/>
-  </svg>
-)
-const IconBank = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 2L2 7v4h20V7L12 2z"/><path d="M2 11v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9"/><line x1="7" y1="15" x2="7" y2="20"/><line x1="12" y1="15" x2="12" y2="20"/><line x1="17" y1="15" x2="17" y2="20"/>
-  </svg>
-)
-const IconBolt = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-  </svg>
-)
-const IconLink = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-  </svg>
-)
+const IconClock = () => <img src="/error.png" alt="" />
+const IconDollar = () => <img src="/high.png" alt="" />
+const IconXMark = () => <img src="/block.png" alt="" />
+const IconBank = () => <img src="/exchange.png" alt="" />
+const IconBolt = () => <img src="/dollar.png" alt="" />
+const IconLink = () => <img src="/wallet.png" alt="" />
 const IconShield = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-  </svg>
+  <img src="/shield.png" alt="" />
+
 )
 
 function useCounterAnimation(target: number, duration = 1500) {
@@ -573,7 +548,7 @@ export default function Page() {
         <div className="hero-bg" />
         <div className="hero-grid" />
 
-        <div className="hero-stats reveal" ref={statsRef as React.RefObject<HTMLDivElement>}>
+       <div className="hero-stats reveal " ref={statsRef as React.RefObject<HTMLDivElement>}>
           <div className="stat-item">
             <div className="stat-num">{waitlistCount.toLocaleString()}+</div>
             <div className="stat-label">Waitlist Users</div>
@@ -584,19 +559,19 @@ export default function Page() {
           </div>
         </div>
 
-        <h1 className="hero-h1 reveal d1">
+        <h1 className="hero-h1 reveal d1 lg:text-5xl text-3xl">
           Finance without borders.<br />
-          <em>Crypto that works</em> in real life.
+          <em>Crypto that works</em> <br /> in real life.
         </h1>
         <p className="hero-desc reveal d2">
-          Nodexpay is Africa&apos;s first multi-chain crypto utility app — buy, send, and spend
+          Nodexpay is an African first multi-chain crypto utility app — buy, send, and spend
           crypto directly from your bank. No exchanges. No friction.
         </p>
 
         <div className="reveal d3">
           <EmailForm source="Hero Waitlist" onSuccess={handleFormSuccess} />
         </div>
-
+ 
         <div className="social-proof reveal d4">
           <div className="avatars">
             {/* <span className="avatar av1">JK</span>
@@ -605,10 +580,12 @@ export default function Page() {
             { <img src="/join.png" alt="" />}
           </div>
 
-          Join +{waitlistCount.toLocaleString()} others already on the waitlist
+          Join 1000 others already on the waitlist
         </div>
-      </section>
 
+        
+      
+</section>
       {/* PROBLEM */}
       <section className="problem">
         <p className="section-label reveal">The Problem</p>
