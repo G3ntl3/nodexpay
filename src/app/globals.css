@@ -3,8 +3,8 @@
 @theme inline {
   --color-background: #0a0a0a;
   --color-foreground: #ededed;
-  /* Map Tailwind's sans font to the variable we created in layout.tsx */
-  --font-sans: var(--font-inter);
+  /* Map Tailwind's sans font to Syne */
+  --font-sans: var(--font-syne);
 }
 
 :root {

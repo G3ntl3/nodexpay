@@ -220,14 +220,14 @@ function ThemeToggle() {
 }
 
 // ─── Icon Components ──────────────────────────────────────────────────────────
-const IconClock = () => <img src="/error.png" alt="" />
-const IconDollar = () => <img src="/high.png" alt="" />
-const IconXMark = () => <img src="/block.png" alt="" />
-const IconBank = () => <img src="/exchange.png" alt="" />
-const IconBolt = () => <img src="/dollar.png" alt="" />
-const IconLink = () => <img src="/wallet.png" alt="" />
+const IconClock = () => <img src="/error.png" alt="error icon" />
+const IconDollar = () => <img src="/high.png" alt="high rate icon" />
+const IconXMark = () => <img src="/block.png" alt=" block icon" />
+const IconBank = () => <img src="/exchange.png" alt="exchange icon" />
+const IconBolt = () => <img src="/dollar.png" alt=" dollar icon" />
+const IconLink = () => <img src="/wallet.png" alt=" wallet icon" />
 const IconShield = () => (
-  <img src="/shield.png" alt="" />
+  <img src="/shield.png" alt=" shield icon" />
 
 )
 
