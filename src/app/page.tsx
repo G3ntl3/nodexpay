@@ -565,7 +565,7 @@ export default function Page() {
         </h1>
         <p className="hero-desc reveal d2">
           Nodexpay is an African first multi-chain crypto utility app — buy, send, and spend
-          crypto directly from your bank. No exchanges. No friction.
+          crypto directly from Nodexpay. No exchanges. No friction.
         </p>
 
         <div className="reveal d3">
@@ -587,7 +587,7 @@ export default function Page() {
       <section className="problem">
         <p className="section-label reveal">The Problem</p>
         <h2 className="section-title reveal">Crypto access in Africa is broken.</h2>
-        <p className="section-sub reveal">Existing platforms make it painful to buy, swap, and use crypto in everyday life.</p>
+        <p className="section-sub reveal">Existing platforms make it complex to buy, swap, and use crypto in everyday life.</p>
 
         <div className="problem-cards">
           {[
@@ -694,7 +694,7 @@ export default function Page() {
                 <span className="logo-text">NODEXPAY</span>
               </a>
               <p className="footer-brand-desc lg:text-2xl">
-                Africa&apos;s first multi-chain crypto utility app. Finance without borders, crypto that works in real life.
+                African's first multi-chain crypto utility app. Finance without borders, crypto that works in real life.
               </p>
               <span className="footer-chip">Coming Soon</span>
             </div>
