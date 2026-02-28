@@ -72,8 +72,12 @@ html[data-theme="light"] .nav {
   transform: scale(1.05);
 }
 
-.logo-mark { display: flex; align-items: center; gap: 0.55rem; text-decoration: none; }
-.logo-img { width: 38px; height: 38px; object-fit: contain; mix-blend-mode: screen; filter: brightness(1.8) contrast(1.2); }
+.logo-mark { display: flex;
+   align-items: center; 
+   gap: 0.55rem; text-decoration: none; }
+.logo-img { width: 38px; height: 38px; 
+  object-fit: contain;  
+  }
 
 html[data-theme="light"] .logo-img {
   mix-blend-mode: multiply;
@@ -88,7 +92,7 @@ html[data-theme="light"] .logo-img {
 
 html[data-theme="light"] .logo-text {
   background: linear-gradient(135deg, #1e293b 35%, var(--cyan));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text; 
 }
 
 .waitlist-badge {
@@ -319,6 +323,7 @@ html[data-theme="light"] .orbit-logo {
 .nodes-wrapper { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
 .nodes-left h2 { font-family:var(--font-cinzel),sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:2rem; }
 .nodes-canvas { width:100%;height:310px;border-radius:16px;background:rgba(8,14,26,0.7);border:1px solid var(--border); }
+html[data-theme="light"] .nodes-canvas { background: #022242f8; border-color: rgba(15,23,42,0.12); }
 .nodes-right { display:flex;flex-direction:column;gap:0; }
 .step-item { display:flex;gap:1.5rem;position:relative;padding-bottom:2.5rem;align-items:flex-start; }
 .step-item:last-child { padding-bottom:0; }
