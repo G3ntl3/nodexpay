@@ -576,10 +576,10 @@ export default function Page() {
         <div className="social-proof reveal d4">
       
             <Image 
-              src="/join.png" 
-              alt="Users joining the Nodexpay waitlist"
-              width={24}
-              height={24}
+              src="/join.png"
+               alt="Users joining the Nodexpay waitlist"
+              width={90}
+              height={90}
               quality={90}
             />
         
