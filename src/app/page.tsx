@@ -2,6 +2,7 @@
 
 import './page.css'
 import { useEffect, useRef, useState, useCallback } from 'react'
+import Image from 'next/image'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface FormState {
@@ -574,7 +575,13 @@ export default function Page() {
  
         <div className="social-proof reveal d4">
       
-            { <img className='' src="/join.png" alt="" />}
+            <Image 
+              src="/join.png" 
+              alt="Users joining the Nodexpay waitlist"
+              width={24}
+              height={24}
+              quality={90}
+            />
         
 
           Join 1000 others already on the waitlist

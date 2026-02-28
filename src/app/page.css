@@ -27,7 +27,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-syne), sans-serif;
   overflow-x: hidden;
 }
 
@@ -85,7 +85,7 @@ html[data-theme="light"] .logo-img {
 }
 
 .logo-text {
-  font-family: var(--font-cinzel), sans-serif; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.01em;
+  font-family: var(--font-syne), sans-serif; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.01em;
   background: linear-gradient(135deg, #fff 35%, var(--cyan));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
