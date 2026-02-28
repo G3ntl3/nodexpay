@@ -716,8 +716,13 @@ export default function Page() {
           <div className="footer-bottom">
             <p>© 2026 Nodex Pay. Built for Africa. 🌍</p>
             <div className="social-links">
-              {['𝕏', '✈', 'in', '◎'].map((s, i) => (
-                <a key={i} href="#" onClick={devTrigger}>{s}</a>
+              {[
+                { symbol: '𝕏', url: 'https://x.com/nodexpay_?s=21' },
+                { symbol: '✈', url: '#' },
+                { symbol: 'in', url: '#' },
+                { symbol: '◎', url: '#' },
+              ].map((link, i) => (
+                <a key={i} href={link.url} onClick={link.url === '#' ? devTrigger : undefined} target={link.url !== '#' ? '_blank' : undefined} rel={link.url !== '#' ? 'noopener noreferrer' : undefined}>{link.symbol}</a>
               ))}
             </div>
           </div>
