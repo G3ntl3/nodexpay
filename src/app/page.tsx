@@ -694,7 +694,7 @@ export default function Page() {
                 <span className="logo-text">NODEXPAY</span>
               </a>
               <p className="footer-brand-desc lg:text-2xl">
-                African's first multi-chain crypto utility app. Finance without borders, crypto that works in real life.
+                African first multi-chain crypto utility app. Finance without borders, crypto that works in real life.
               </p>
               <span className="footer-chip">Coming Soon</span>
             </div>
