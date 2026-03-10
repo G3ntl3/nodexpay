@@ -44,21 +44,20 @@ export async function POST(req: Request) {
     const { data, error } = await supabase
       .from('waitlist')
       .upsert(
-        { email }, 
+        { email },
         { onConflict: 'email', ignoreDuplicates: true }
       )
-      .select()
-      .single();
+      .select();
 
     if (error) {
       console.error('[WAITLIST_ERROR]:', error.message);
       return NextResponse.json({ error: 'Database connection failed' }, { status: 500 });
     }
 
-    return NextResponse.json({ 
-      ok: true, 
+    return NextResponse.json({
+      ok: true,
       message: 'Successfully joined the waitlist',
-      data: data || { email } 
+      data: data?.[0] || { email }
     }, { status: 201 });
 
   } catch (err) {
