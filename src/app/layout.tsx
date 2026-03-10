@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: 'Nodexpay - Crypto Access for Africa',
   description: 'Access crypto in Africa made simple. Buy, swap, and use cryptocurrency in everyday life with Nodexpay.',
   keywords: 'crypto, Africa, blockchain, payments, wallet',
+  icons: {
+    icon: '/logo.png',
+  },
   openGraph: {
     title: 'Nodexpay - Crypto Access for Africa',
     description: 'Access crypto in Africa made simple. Buy, swap, and use cryptocurrency in everyday life.',
