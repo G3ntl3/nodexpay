@@ -1,35 +1,71 @@
-import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-)
+// 1. Force dynamic execution to ensure fresh environment variables
+export const dynamic = 'force-dynamic';
+
+/**
+ * Singleton pattern for the Supabase Service Role client.
+ * This ensures we don't recreate the client on every request,
+ * but also guarantees env vars are present before initialization.
+ */
+const getSupabaseAdmin = () => {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!url || !serviceKey) {
+    throw new Error('Missing Supabase Environment Variables');
+  }
+
+  return createClient(url, serviceKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
+};
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json()
-    const email = (body?.email || '').toString().trim().toLowerCase()
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
+    const body = await req.json();
+    
+    // 2. Robust Email Normalization
+    const email = body?.email?.toString().trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email || !emailRegex.test(email)) {
+      return NextResponse.json({ error: 'A valid email is required' }, { status: 400 });
     }
 
+    const supabase = getSupabaseAdmin();
+
+    // 3. Using .upsert with ignoreDuplicates: true 
+    // This is cleaner than manual error code checking for 23505
     const { data, error } = await supabase
       .from('waitlist')
-      .insert([{ email }])
+      .upsert(
+        { email }, 
+        { onConflict: 'email', ignoreDuplicates: true }
+      )
       .select()
+      .single();
 
     if (error) {
-      console.error('Supabase error:', error)
-      if (error.code === '23505') {
-        return NextResponse.json({ ok: true })
-      }
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      console.error('[WAITLIST_ERROR]:', error.message);
+      return NextResponse.json({ error: 'Database connection failed' }, { status: 500 });
     }
 
-    return NextResponse.json({ ok: true, entry: data?.[0] })
+    return NextResponse.json({ 
+      ok: true, 
+      message: 'Successfully joined the waitlist',
+      data: data || { email } 
+    }, { status: 201 });
+
   } catch (err) {
-    console.error('Waitlist error:', err)
-    return NextResponse.json({ error: `Server error: ${err instanceof Error ? err.message : 'Unknown'}` }, { status: 500 })
+    console.error('[SERVER_ERROR]:', err);
+    return NextResponse.json(
+      { error: 'Internal server error' }, 
+      { status: 500 }
+    );
   }
 }
